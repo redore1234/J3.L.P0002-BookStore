@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/J3.L.P0002_BookStore" allowCasualMultipartParsing="true">
+    <Resource name="BookStore" type="javax.sql.DataSource" auth="Container"
+            driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+            url="jdbc:sqlserver://localhost:1433;databaseName=J3LP0002"
+            username="sa"  password="123456"
+    />
+</Context>
