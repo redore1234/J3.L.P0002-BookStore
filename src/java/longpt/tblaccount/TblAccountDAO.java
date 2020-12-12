@@ -29,7 +29,7 @@ public class TblAccountDAO implements Serializable {
             if (con != null) {
                 String sql = "SELECT fullName, roleId, statusId"
                         + " FROM tblAccount"
-                        + " WHERE username=? AND password=? AND statusId=1";
+                        + " WHERE username=? AND password=?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, username);
                 stm.setString(2, password);

@@ -64,7 +64,7 @@
                                 <li class="nav-item">
                                     <a class="welcome-user"> Welcome ${account.fullName}</a>
                                 </li>
-
+                                    
                                 <li class="nav-item">
                                     <input type="submit" value="Logout" name="btnAction"  class="btn btn-danger btn-sm my-2 my-sm-0 mx-3"/>
                                 </li>
