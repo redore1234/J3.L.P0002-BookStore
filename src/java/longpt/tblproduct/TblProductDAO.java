@@ -170,7 +170,7 @@ public class TblProductDAO implements Serializable {
         }
         return statusId;
     }
-    
+
     public String getProductNameById(int productId) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -530,8 +530,8 @@ public class TblProductDAO implements Serializable {
         try {
             con = DbHelpers.makeConnection();
             if (con != null) {
-                if (image != null) {  
-                        //Update book with image
+                if (image != null) {
+                    //Update book with image
                     String sql = "UPDATE tblProduct"
                             + " SET title=?, quantity=?, image=?, author=?, description=?, price=?, categoryId=?"
                             + " WHERE productId=? AND statusId=1";
@@ -547,7 +547,7 @@ public class TblProductDAO implements Serializable {
 
                     stm.executeUpdate();
                 } else {
-                        //Update book without image
+                    //Update book without image
                     String sql = "UPDATE tblProduct"
                             + " SET title=?, quantity=?, author=?, description=?, price=?, categoryId=?"
                             + " WHERE productId=? AND statusId=1";

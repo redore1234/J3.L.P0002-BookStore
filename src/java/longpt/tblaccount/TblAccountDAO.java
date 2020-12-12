@@ -63,13 +63,13 @@ public class TblAccountDAO implements Serializable {
         try {
             con = DbHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT fullName "
+                String sql = "SELECT fullName"
                         + " FROM tblAccount"
                         + " WHERE username=? AND statusId=1";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, username);
                 rs = stm.executeQuery();
-                if (rs.next()) {                    
+                if (rs.next()) {
                     name = rs.getString("fullName");
                 }
             }

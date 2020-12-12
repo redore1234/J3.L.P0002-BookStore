@@ -25,11 +25,11 @@ import longpt.tblproduct.TblProductDTO;
 public class TblOrderDetailDAO implements Serializable {
 
     private Map<TblOrderDetailDTO, String> orderDetailList;
-    
+
     public Map<TblOrderDetailDTO, String> getOrderDetailList() {
         return orderDetailList;
     }
-    
+
     public boolean addOrderDetail(Cart cart, String orderId) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -90,15 +90,15 @@ public class TblOrderDetailDAO implements Serializable {
                 while (rs.next()) {
                     int detailId = rs.getInt("detailId");
                     int productId = rs.getInt("productId");
-                    
+
                     TblProductDAO productDAO = new TblProductDAO();
-                    String title =  productDAO.getProductNameById(productId);
-                    
+                    String title = productDAO.getProductNameById(productId);
+
                     int quantity = rs.getInt("quantity");
                     int price = rs.getInt("totalPrice");
-                    
+
                     TblOrderDetailDTO orderDetailDTO = new TblOrderDetailDTO(detailId, orderId, productId, quantity, price);
-                    
+
                     if (orderDetailList == null) {
                         orderDetailList = new HashMap<>();
                     }

@@ -34,7 +34,9 @@ import org.apache.log4j.Logger;
 public class TrackOrderServlet extends HttpServlet {
 
     private String TRACKING_PAGE = "trackorder.jsp";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(TrackOrderServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,29 +61,30 @@ public class TrackOrderServlet extends HttpServlet {
                 if (accountDTO != null) {
                     username = accountDTO.getUsername();
                 }
-            }
-            
-            //Get Order by orderId and username
-            TblOrdersDAO ordersDAO = new TblOrdersDAO();
-            TblOrdersDTO ordersDTO = ordersDAO.getOrder(orderId, username);
-            request.setAttribute("ORDER", ordersDTO);
-            if (ordersDTO != null) {
-                if (ordersDTO.getName() == null) {  // do name không cần thiết nhập trong DB
-                    TblAccountDAO accountDAO = new TblAccountDAO();
-                    String name = accountDAO.searchNameByUsername(username);
-                    request.setAttribute("NAME_INFO", name);
+                //Get Order by orderId and username
+                TblOrdersDAO ordersDAO = new TblOrdersDAO();
+                TblOrdersDTO ordersDTO = ordersDAO.getOrder(orderId, username);
+                request.setAttribute("ORDER", ordersDTO);
+                if (ordersDTO != null) {
+                    if (ordersDTO.getName() == null) {  // do name không cần thiết nhập trong DB
+                        TblAccountDAO accountDAO = new TblAccountDAO();
+                        String name = accountDAO.searchNameByUsername(username);
+                        request.setAttribute("NAME_INFO", name);
+                    }
+
+                    if (ordersDTO.getDate() != null) {
+                        TblPaymentDAO paymentDAO = new TblPaymentDAO();
+                        String payment = paymentDAO.searchNameById(ordersDTO.getPaymentId());
+                        request.setAttribute("PAYMENT_METHOD", payment);
+                    }
+
+                    TblOrderDetailDAO orderDetailDAO = new TblOrderDetailDAO();
+                    orderDetailDAO.loadOrderDetail(orderId);
+                    Map<TblOrderDetailDTO, String> orderDetailList = orderDetailDAO.getOrderDetailList();
+                    request.setAttribute("MAP_ORDER_DETAIL", orderDetailList);
                 }
-                
-                if (ordersDTO.getDate() != null) {
-                    TblPaymentDAO paymentDAO = new TblPaymentDAO();
-                    String payment = paymentDAO.searchNameById(ordersDTO.getPaymentId());
-                    request.setAttribute("PAYMENT_METHOD", payment);
-                }
-                
-                TblOrderDetailDAO orderDetailDAO = new TblOrderDetailDAO();
-                orderDetailDAO.loadOrderDetail(orderId);
-                Map<TblOrderDetailDTO, String> orderDetailList = orderDetailDAO.getOrderDetailList();
-                request.setAttribute("MAP_ORDER_DETAIL", orderDetailList);
+            } else {
+                url = HOME_CONTROLLER;
             }
         } catch (SQLException ex) {
             logger.error("TrackOrderServlet _ SQLException: " + ex.getMessage());

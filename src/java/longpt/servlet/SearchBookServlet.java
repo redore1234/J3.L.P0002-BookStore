@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 public class SearchBookServlet extends HttpServlet {
 
     private final String HOME_PAGE = "home.jsp";
-    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(SearchBookServlet.class);
 
     /**
@@ -71,7 +71,7 @@ public class SearchBookServlet extends HttpServlet {
 
                 url = HOME_PAGE;
             } else {
-                url = DISPATCH_CONTROLLER;
+                url = HOME_CONTROLLER;
             }
 
         } catch (SQLException ex) {

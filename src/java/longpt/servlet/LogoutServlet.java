@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutServlet extends HttpServlet {
 
     private final String DISPATCH_CONTROLLER = "DispatchController";
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

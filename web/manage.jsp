@@ -19,31 +19,35 @@
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:set var="listCategory" value="${requestScope.LIST_CATEGORIES}"/>
         
+        <c:if test="${empty account}">
+            <c:redirect url="HomeServlet"/>
+        </c:if>
+        <c:if test="${role ne 'admin'}">
+            <c:redirect url="HomeServlet"/>
+        </c:if>
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link active" href="HomeServlet">Home</a>
                 </li>
                 
-                
-                    <c:choose>
-                        <c:when test="${role eq 'admin'}">  
-                            <c:url var="urlInsert" value="DispatchController">
-                                <c:param name="btnAction" value="LoadCategory"/>
-                                <c:param name="hiddenbtnAction" value="Insert"/>
-                            </c:url>
-                        <li class="nav-item">
-                            <a href="${urlInsert}" class="nav-link active">Insert new Book</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="DispatchController?btnAction=View Discount" class="nav-link active">View Discount</a>
-                        </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:redirect url="DispatchController"/>
-                        </c:otherwise>
-                    </c:choose>
-
+                <c:choose>
+                    <c:when test="${role eq 'admin'}">  
+                        <c:url var="urlInsert" value="DispatchController">
+                            <c:param name="btnAction" value="LoadCategory"/>
+                            <c:param name="hiddenbtnAction" value="Insert"/>
+                        </c:url>
+                    <li class="nav-item">
+                        <a href="${urlInsert}" class="nav-link active">Insert new Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="DispatchController?btnAction=View Discount" class="nav-link active">View Discount</a>
+                    </li>
+                    </c:when>
+                    <c:otherwise>
+                        <c:redirect url="HomeServlet"/>
+                    </c:otherwise>
+                </c:choose>
             </ul>
             
             <ul class="navbar-nav ml-auto text-center">
@@ -169,7 +173,7 @@
                                                  </a>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:redirect url="DispatchController"/>
+                                                <c:redirect url="HomeServlet"/>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

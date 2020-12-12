@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 public class SearchBookCategoryServlet extends HttpServlet {
 
     private final String HOME_PAGE = "home.jsp";
-    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(SearchBookCategoryServlet.class);
 
     /**
@@ -69,7 +69,7 @@ public class SearchBookCategoryServlet extends HttpServlet {
                 request.setAttribute("LIST_CATEGORIES", listCategories);
                 url = HOME_PAGE;
             } else {
-                url = DISPATCH_CONTROLLER;
+                url = HOME_CONTROLLER;
             }
         } catch (SQLException ex) {
             logger.error("SearchBookCategoryServlet _ SQLException: " + ex.getMessage());

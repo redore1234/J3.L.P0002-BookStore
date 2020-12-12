@@ -36,6 +36,7 @@ public class HomeServlet extends HttpServlet {
     private final String HOME_PAGE = "home.jsp";
     private final String MANAGE_PAGE = "manage.jsp";
     private final static Logger logger = Logger.getLogger(HomeServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

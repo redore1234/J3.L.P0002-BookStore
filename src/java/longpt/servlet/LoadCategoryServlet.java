@@ -33,6 +33,7 @@ public class LoadCategoryServlet extends HttpServlet {
     private final String UPDATE_PAGE = "updatebook.jsp";
     private final String DISPATCH_CONTROLLER = "DispatchController";
     private final static Logger logger = Logger.getLogger(LoadCategoryServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

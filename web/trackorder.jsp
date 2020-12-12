@@ -19,7 +19,10 @@
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:if test="${empty account}">
-            <c:redirect url="DispatchController"/>
+            <c:redirect url="HomeServlet"/>
+        </c:if>
+        <c:if test="${role ne 'user'}">
+            <c:redirect url="HomeServlet"/>
         </c:if>
 
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -27,36 +30,33 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="HomeServlet">Home</a>
                 </li>
-
-                <li class="nav-item">
-                    <c:choose>
-                        <c:when test="${role eq 'user'}">  
-                            <c:url var="urlViewCart" value="DispatchController">
-                                <c:param name="btnAction" value="View Cart"/>
-                            </c:url>
+                
+                <c:choose>
+                    <c:when test="${role eq 'user'}">  
+                        <c:url var="urlViewCart" value="DispatchController">
+                            <c:param name="btnAction" value="View Cart"/>
+                        </c:url>
+                        <li class="nav-item">
                             <a href="${urlViewCart}" class="nav-link active">View Cart</a>
-                        </c:when>
-                        <c:otherwise>
-                            <c:redirect url="DispatchController"/>
-                        </c:otherwise>
-                    </c:choose>
-                </li>
-                <li class="nav-item">
-                    <c:choose>
-                        <c:when test="${role eq 'user'}">  
-                            <c:url var="urlTracking" value="DispatchController">
-                                <c:param name="btnAction" value="Track"/>
-                            </c:url>
-                            <a href="${urlTracking}" class="nav-link active">Track Order</a>
-                        </c:when>
-                        <c:otherwise>
-                            <c:redirect url="DispatchController"/>
-                        </c:otherwise>
-                    </c:choose>
-                </li>
+                        </li>
+
+                        <!-- Load Order Form -->
+                        <c:url var="urlViewHistory" value="DispatchController">
+                            <c:param name="btnAction" value="View History"/>
+                        </c:url>
+                        <li class="nav-item">
+                            <a href="${urlViewHistory}" class="nav-link active">Purchase History</a>
+                        </li>
+                    </c:when>
+                        
+                    <c:otherwise>
+                        <c:redirect url="HomeServlet"/>
+                    </c:otherwise>
+                </c:choose>
             </ul>
 
             <ul class="navbar-nav ml-auto text-center">
+                
                 <!-- Log out form -->
                 <form action="DispatchController" method="POST">
                     <c:choose>
@@ -81,21 +81,62 @@
         </nav>   
         
         <div class="container">
+            <c:set var="orderHistory" value="${requestScope.ORDER_HISTORY}"/>
+                <!-- Display order history -->
+            <div class="text-center" style="font-weight: bold">
+                
+            </div>
+            
+            <c:if test="${not empty orderHistory}">
+                <table class="table table-hover">
+                    <h3 class="text-center my-5" style="font-weight: bold"></h3>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <c:forEach var="orderList" items="${orderHistory}" varStatus="counter">
+                            <tr>
+                                <th scope="row">${counter.count}</th>
+                                <td>${orderList.orderId}</td>
+                                <td>${orderList.username}</td>
+                                <td>${orderList.name}</td>
+                                <td>${orderList.date}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+            
             
             <c:set var="orderInfo" value="${requestScope.ORDER}" />
             <c:set var="fullName" value="${requestScope.NAME_INFO}" />
             <c:set var="paymentMethod" value="${requestScope.PAYMENT_METHOD}" />
             <c:set var="orderDetailMap" value="${requestScope.MAP_ORDER_DETAIL}" />
-                <!-- TRACKING AREA -->
+                <!-- TRACKING ORDER DETAIL AREA -->
             <div class="text-center" style="font-weight: bold">
-                <h2 class="my-3">TRACK ORDER</h2>
+                <h3 class="my-3">TRACK ORDER DETAIL</h3>
             </div>
             <div class="form-group">
                 <form action="DispatchController" method="POST">
                     <input type="text" name="txtTracking" value="${param.txtTracking}" placeholder="Tracking your order" required class="form-control mr-sm-2 my-2" />
-                    <div class="text-right">
-                        <input type="submit" value="Track" class="btn btn-success my-2 my-sm-0" name="btnAction"/>
-                    </div>
+                    <c:choose>
+                        <c:when test="${role eq 'user'}">
+                            <div class="text-right">
+                                <input type="submit" value="Track" class="btn btn-success my-2 my-sm-0" name="btnAction"/>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:redirect url="HomeServlet"/>
+                        </c:otherwise>
+                    </c:choose>
+                    
                 </form>
             </div>
                 

@@ -26,22 +26,34 @@
                     <a class="nav-link active" href="HomeServlet">Home</a>
                 </li>
                 
-                <li class="nav-item">
-                    <c:if test="${role eq 'user'}">  
-                        <c:url var="urlViewCart" value="DispatchController">
-                            <c:param name="btnAction" value="View Cart"/>
-                        </c:url>
+                <c:if test="${role eq 'user'}">  
+                    <c:url var="urlViewCart" value="DispatchController">
+                        <c:param name="btnAction" value="View Cart"/>
+                    </c:url>
+                    <li class="nav-item">
                         <a href="${urlViewCart}" class="nav-link active">View Cart</a>
-                    </c:if>
-                </li>
-                <li class="nav-item">
-                    <c:if test="${role eq 'user'}">  
-                        <c:url var="urlTracking" value="DispatchController">
-                            <c:param name="btnAction" value="Track"/>
+                    </li>
+                    
+                    <!-- Load Order Form -->
+                    <c:url var="urlViewHistory" value="DispatchController">
+                        <c:param name="btnAction" value="View History"/>
+                    </c:url>
+                    <li class="nav-item">
+                        <a href="${urlViewHistory}" class="nav-link active">Purchase History</a>
+                    </li>
+                </c:if>
+                <c:if test="${role eq 'admin'}">  
+                        <c:url var="urlInsert" value="DispatchController">
+                            <c:param name="btnAction" value="LoadCategory"/>
+                            <c:param name="hiddenbtnAction" value="Insert"/>
                         </c:url>
-                        <a href="${urlTracking}" class="nav-link active">Track Order</a>
-                    </c:if>
-                </li>
+                    <li class="nav-item">
+                        <a href="${urlInsert}" class="nav-link active">Insert new Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="DispatchController?btnAction=View Discount" class="nav-link active">View Discount</a>
+                    </li>
+                </c:if>
             </ul>
             
             <ul class="navbar-nav ml-auto text-center">
@@ -161,6 +173,23 @@
                                                         <a href="${urlAddtoCart}" class="nav-link disabled">Add to Cart</a>
                                                     </c:otherwise>
                                                 </c:choose>
+                                            </c:if>
+                                            <c:if test="${role eq 'admin'}">  
+                                                <c:url var="urlUpdate" value="DispatchController">
+                                                    <c:param name="btnAction" value="LoadCategory"/>
+                                                    <c:param name="hiddenbtnAction" value="Edit"/>
+                                                    <c:param name="txtProductId" value="${item.productId}"/>
+                                                </c:url>
+                                                <a href="${urlUpdate}" class="nav-link badge badge-warning">Update Book</a>
+
+                                                <c:url var="urlDelete" value="DispatchController">
+                                                    <c:param name="btnAction" value="Delete Book"/>
+                                                    <c:param name="productId" value="${item.productId}"/>
+                                                </c:url>
+                                                <a href="${urlDelete}" class="nav-link badge badge-danger" 
+                                                    onclick="return confirm('Do you want to delete this book?');">
+                                                    Delete Book
+                                                 </a>
                                             </c:if>
                                     </div>
                                 </div>

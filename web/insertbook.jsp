@@ -19,7 +19,10 @@
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:if test="${empty account}">
-            <c:redirect url="DispatchController"/>
+            <c:redirect url="HomeServlet"/>
+        </c:if>
+        <c:if test="${role ne 'admin'}">
+            <c:redirect url="HomeServlet"/>
         </c:if>
         
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -118,11 +121,18 @@
                                 </c:forEach>
                             </select> 
                         </div>
+                            <c:choose>
+                                <c:when test="${role eq 'admin'}">
+                                    <div class="form-group text-right">
+                                        <input type="submit" class="btn btn-primary" value="Add" name="btnAction" />
+                                        <input type="reset" value="Reset" class="btn btn-primary"/>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:redirect url="HomeServlet"/>
+                                </c:otherwise>
+                            </c:choose>
                         
-                        <div class="form-group text-right">
-                            <input type="submit" class="btn btn-primary" value="Add" name="btnAction" />
-                            <input type="reset" value="Reset" class="btn btn-primary"/>
-                        </div>
                     </form>
                 </div>
             </div>

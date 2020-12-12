@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 @MultipartConfig
 public class UpdateBookServlet extends HttpServlet {
 
-    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(UpdateBookServlet.class);
 
     /**
@@ -74,8 +74,6 @@ public class UpdateBookServlet extends HttpServlet {
                 String fileName = fileImage.getSubmittedFileName();
                 if (fileName.contains(".jpg") || fileName.contains(".PNG") || fileName.contains(".png")) {
                     fileInputStream = fileImage.getInputStream();
-                } else {
-                    request.setAttribute("ERROR_IMAGE", "Please choose image with *.jpg or *.PNG or .png extension");
                 }
             }
 
@@ -83,7 +81,7 @@ public class UpdateBookServlet extends HttpServlet {
 
             TblProductDAO productDAO = new TblProductDAO();
             productDAO.updateBook(productId, title, quantity, fileInputStream, author, description, price, categoryId);
-            url = DISPATCH_CONTROLLER;
+            url = HOME_CONTROLLER;
         } catch (SQLException ex) {
             logger.error("UpdateBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {

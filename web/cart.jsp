@@ -20,7 +20,10 @@
             <c:set var="account" value="${sessionScope.ACCOUNT}"/>
             <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
             <c:if test="${empty account}">
-                <c:redirect url="DispatchController"/>
+                <c:redirect url="HomeServlet"/>
+            </c:if>
+            <c:if test="${role ne 'user'}">
+                <c:redirect url="HomeServlet"/>
             </c:if>
 
             <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -29,29 +32,28 @@
                         <a class="nav-link active" href="HomeServlet">Home</a>
                     </li>
 
-                    <li class="nav-item">
-                        <c:choose>
-                            <c:when test="${role eq 'user'}">  
-                                <c:url var="urlViewCart" value="DispatchController">
-                                    <c:param name="btnAction" value="View Cart"/>
-                                </c:url>
+                    <c:choose>
+                        <c:when test="${role eq 'user'}">  
+                            <c:url var="urlViewCart" value="DispatchController">
+                                <c:param name="btnAction" value="View Cart"/>
+                            </c:url>
+                            <li class="nav-item">
                                 <a href="${urlViewCart}" class="nav-link active">View Cart</a>
-                            </c:when>
-                            <c:otherwise>
-                                <c:redirect url="DispatchController"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </li>
-                    <li class="nav-item">
-                        <c:choose>
-                            <c:when test="${role eq 'user'}">  
-                                <a href="trackorder.jsp" class="nav-link active">Track Order</a>
-                            </c:when>
-                            <c:otherwise>
-                                <c:redirect url="DispatchController"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </li>
+                            </li>
+
+                            <!-- Load Order Form -->
+                            <c:url var="urlViewHistory" value="DispatchController">
+                                <c:param name="btnAction" value="View History"/>
+                            </c:url>
+                            <li class="nav-item">
+                                <a href="${urlViewHistory}" class="nav-link active">Purchase History</a>
+                            </li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <c:redirect url="HomeServlet"/>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
 
                 <ul class="navbar-nav ml-auto text-center">
@@ -106,14 +108,12 @@
                                                 min="1" value="${product.value}" />
                                                 <input type="hidden" name="txtQuantity" value="${product.value}" />
                                             </td>
-
-                                            <td>
-                                                <input type="submit" value="Update quantity" class="btn btn-warning" name="btnAction"/>
-                                            </td>
-
                                                 <!-- Delete form cart -->
                                             <c:choose>
                                                 <c:when test="${role eq 'user'}">
+                                                    <td>
+                                                        <input type="submit" value="Update quantity" class="btn btn-warning" name="btnAction"/>
+                                                    </td>
                                                     <td colspan="2">
                                                         <a href="DispatchController?btnAction=Delete Cart&txtProductId=${product.key.productId}" class="btn btn-outline-danger" 
                                                             onclick="return confirm('Do you want to delete ${product.key.title}?');">
@@ -122,7 +122,7 @@
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <c:redirect url="DispatchController"/>
+                                                    <c:redirect url="HomeServlet"/>
                                                 </c:otherwise>
                                             </c:choose>
                                         </th>
@@ -162,18 +162,26 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <input type="text" name="txtAddress" value="" maxlength="200" class="form-control"/>
+                                                <input type="text" name="txtAddress" value="${param.txtAddress}" maxlength="200" class="form-control"/>
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Phone</label>
-                                                <input type="tel" name="txtPhone" pattern="[0-9]{10}" maxlength="10"
+                                                <input type="tel" name="txtPhone" pattern="[0-9]{10}" maxlength="10" value="${param.txtPhone}"
                                                     onkeypress=" return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" 
                                                     class="form-control" >
                                             </div>
-                                            <div class="text-right">
-                                                <input type="submit" value="Check out" class="btn btn-success mt-3" name="btnAction"/>
-                                            </div>
+                                                <c:choose>
+                                                    <c:when test="${role eq 'user'}">
+                                                        <div class="text-right">
+                                                            <input type="submit" value="Check out" class="btn btn-success mt-3" name="btnAction"/>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:redirect url="HomeServlet"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                           
                                         </form>
                                     </div>
                                 </div>

@@ -18,7 +18,7 @@
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:if test="${empty account}">
-            <c:redirect url="DispatchController"/>
+            <c:redirect url="HomeServlet"/>
         </c:if>
         
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -37,18 +37,18 @@
                         <li class="nav-item">
                             <a href="${urlInsert}" class="nav-link active">Insert new Book</a>
                         </li>
+                        
+                        <c:url var="urlCreateDiscount" value="DispatchController">
+                            <c:param name="btnAction" value="View Discount"/>
+                        </c:url>
+                        <li class="nav-item">
+                            <a href="${urlCreateDiscount}" class="nav-link active">View Discount</a>
+                        </li>
                     </c:when>
                     <c:otherwise>
-                        <c:redirect url="DispatchController"/>
+                        <c:redirect url="HomeServlet"/>
                     </c:otherwise>
                 </c:choose>
-                        
-                <c:url var="urlCreateDiscount" value="DispatchController">
-                            <c:param name="btnAction" value="View Discount"/>
-                </c:url>
-                <li class="nav-item">
-                    <a href="${urlCreateDiscount}" class="nav-link active">View Discount</a>
-                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto text-center">
@@ -93,8 +93,14 @@
                     <option>1</option>
                     <option>2</option>
                 </select>
-
-                <input type="submit" value="Create Discount" name="btnAction" />
+                <c:choose>
+                    <c:when test="${role eq 'admin'}">
+                        <input type="submit" value="Create Discount" name="btnAction" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:redirect url="HomeServlet"/>
+                    </c:otherwise>
+                </c:choose>
             </form>
             
                 <!-- Display result  -->

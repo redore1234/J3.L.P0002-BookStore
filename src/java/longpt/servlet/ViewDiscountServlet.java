@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 @WebServlet(name = "ViewDiscountServlet", urlPatterns = {"/ViewDiscountServlet"})
 public class ViewDiscountServlet extends HttpServlet {
 
-    private final String DISPATCHER_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final String DISCOUNT_PAGE = "discount.jsp";
     private final static Logger logger = Logger.getLogger(ViewDiscountServlet.class);
 
@@ -50,7 +50,7 @@ public class ViewDiscountServlet extends HttpServlet {
         String url = DISCOUNT_PAGE;
         boolean isAdmin = true;
         try {
-                //Check role 
+            //Check role 
             HttpSession session = request.getSession(false);
             if (session != null) {
                 TblAccountDTO dto = (TblAccountDTO) session.getAttribute("ACCOUNT");
@@ -71,7 +71,7 @@ public class ViewDiscountServlet extends HttpServlet {
                 }
 
                 if (isAdmin == false) {
-                    url = DISPATCHER_CONTROLLER;
+                    url = HOME_CONTROLLER;
                 }
             }
         } catch (SQLException ex) {

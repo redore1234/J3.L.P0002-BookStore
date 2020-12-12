@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import longpt.tblaccount.TblAccountDTO;
 import longpt.tblproduct.TblProductDAO;
 import org.apache.log4j.Logger;
 
@@ -25,7 +27,9 @@ import org.apache.log4j.Logger;
 public class DeleteBookServlet extends HttpServlet {
 
     private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(DeleteBookServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,20 +44,35 @@ public class DeleteBookServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String url = DISPATCH_CONTROLLER;
-
+        String url = "";
+        boolean isAdmin = false;
         try {
             String product = request.getParameter("productId");
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                TblAccountDTO dto = (TblAccountDTO) session.getAttribute("ACCOUNT");
+                if (dto != null) {
+                    if (dto.getRoleId().equals("admin")) {
+                        isAdmin = true;
+                        int productId = 0;
+                        if (product != null) {
+                            productId = Integer.parseInt(product);
+                        }
 
-            int productId = 0;
-            if (product != null) {
-                productId = Integer.parseInt(product);
+                        //Call DAO
+                        TblProductDAO productDAO = new TblProductDAO();
+                        productDAO.deleteBook(productId);
+
+                    }
+                } else {
+                    isAdmin = false;
+                }
             }
-
-            //Call DAO
-            TblProductDAO productDAO = new TblProductDAO();
-            productDAO.deleteBook(productId);
-            url = DISPATCH_CONTROLLER;
+            if (isAdmin == true) {
+                url = DISPATCH_CONTROLLER;
+            } else {
+                url = HOME_CONTROLLER;
+            }
         } catch (SQLException ex) {
             logger.error("DeleteBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {

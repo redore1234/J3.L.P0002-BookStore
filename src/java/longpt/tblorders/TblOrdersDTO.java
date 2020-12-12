@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  */
 public class TblOrdersDTO implements Serializable {
 
-    private String OrderId;
+    private String orderId;
     private String username;
     private String name;
     private String address;
@@ -26,8 +26,8 @@ public class TblOrdersDTO implements Serializable {
     public TblOrdersDTO() {
     }
 
-    public TblOrdersDTO(String OrderId, String username, String name, String address, String phone, int total, Timestamp date, String paymentId) {
-        this.OrderId = OrderId;
+    public TblOrdersDTO(String orderId, String username, String name, String address, String phone, int total, Timestamp date, String paymentId) {
+        this.orderId = orderId;
         this.username = username;
         this.name = name;
         this.address = address;
@@ -38,11 +38,11 @@ public class TblOrdersDTO implements Serializable {
     }
 
     public String getOrderId() {
-        return OrderId;
+        return orderId;
     }
 
-    public void setOrderId(String OrderId) {
-        this.OrderId = OrderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getUsername() {

@@ -33,8 +33,9 @@ import org.apache.log4j.Logger;
 public class CheckOutServlet extends HttpServlet {
 
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
-    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(CheckOutServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -98,7 +99,7 @@ public class CheckOutServlet extends HttpServlet {
                     }
                 }
             } else {
-                url = DISPATCH_CONTROLLER;
+                url = HOME_CONTROLLER;
             }
         } catch (SQLException ex) {
             logger.error("CheckOutServlet _ SQLException: " + ex.getMessage());

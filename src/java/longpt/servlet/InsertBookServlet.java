@@ -29,8 +29,9 @@ import org.apache.log4j.Logger;
 @MultipartConfig
 public class InsertBookServlet extends HttpServlet {
 
-    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final String HOME_CONTROLLER = "HomeServlet";
     private final static Logger logger = Logger.getLogger(InsertBookServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -78,7 +79,7 @@ public class InsertBookServlet extends HttpServlet {
 
             TblProductDAO productDAO = new TblProductDAO();
             productDAO.insertBook(title, quantity, fileInputStream, author, description, price, categoryId);
-            url = DISPATCH_CONTROLLER;
+            url = HOME_CONTROLLER;
         } catch (SQLException ex) {
             logger.error("InsertBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {

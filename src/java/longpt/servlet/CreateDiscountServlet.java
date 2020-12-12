@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 @WebServlet(name = "CreateDiscountServlet", urlPatterns = {"/CreateDiscountServlet"})
 public class CreateDiscountServlet extends HttpServlet {
 
-    private final String HOME_CONTROLLER = "HomeServlet";
+    private final String DISPATCH_CONTROLLER = "DispatchController";
     private final static Logger logger = Logger.getLogger(CreateDiscountServlet.class);
 
     /**
@@ -69,12 +69,12 @@ public class CreateDiscountServlet extends HttpServlet {
                     } else {
                         isAdmin = false;
                     }
-                } else if (dto == null) {
+                } else {
                     isAdmin = false;
                 }
 
                 if (isAdmin == false) {
-                    url = HOME_CONTROLLER;
+                    url = DISPATCH_CONTROLLER;
                 }
             }
         } catch (SQLException ex) {

@@ -19,7 +19,10 @@
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:if test="${empty account}">
-            <c:redirect url="DispatchController"/>
+            <c:redirect url="HomeServlet"/>
+        </c:if>
+        <c:if test="${role ne 'admin'}">
+            <c:redirect url="HomeServlet"/>
         </c:if>
         
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -64,7 +67,6 @@
                     
                     <form action="DispatchController" method="POST" enctype="multipart/form-data">
                         <c:set var="productId" value="${requestScope.PRODUCT_ID}"/>
-                        <c:set var="errors" value="${requestScope.ERROR_IMAGE}"/>
                         
                         <input type="hidden" name="productId" value="${productId}" />
                         
@@ -87,9 +89,6 @@
                         <div class="form-group"> 
                             <label>Image</label>
                             <input type="file" name="txtImage" accept="image/*" style="width: 15rem" class="form-control-file"/>
-                            <c:if test="${not empty errors}">
-                                <p class="text-danger"> ${errors} </p>
-                            </c:if>
                         </div>
                         
                         <div class="form-group">
@@ -126,10 +125,17 @@
                             </select> 
                         </div>
                         
-                        <div class="form-group text-right">
-                            <input type="submit" class="btn btn-primary" value="Update" name="btnAction" />
-                            <input type="reset" class="btn btn-primary" value="Reset" />
-                        </div>
+                        <c:choose>
+                            <c:when test="${role eq 'admin'}">
+                                <div class="form-group text-right">
+                                    <input type="submit" class="btn btn-primary" value="Update" name="btnAction" />
+                                    <input type="reset" value="Reset" class="btn btn-primary"/>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <c:redirect url="HomeServlet"/>
+                            </c:otherwise>
+                        </c:choose>
                     </form>
                 </div>
             </div>

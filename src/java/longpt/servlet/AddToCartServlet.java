@@ -30,6 +30,7 @@ public class AddToCartServlet extends HttpServlet {
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
     private final String DISPATCH_CONTROLLER = "DispatchController";
     private final static Logger logger = Logger.getLogger(AddToCartServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

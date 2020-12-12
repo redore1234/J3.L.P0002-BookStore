@@ -23,11 +23,11 @@ import longpt.dbulti.DbHelpers;
 public class TblDiscountDAO implements Serializable {
 
     private List<TblDiscountDTO> discountList;
-    
+
     public List<TblDiscountDTO> getDiscountList() {
         return discountList;
     }
-    
+
     public void createDiscount(int percent, int quantity) throws SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -65,14 +65,14 @@ public class TblDiscountDAO implements Serializable {
                         + " FROM tblDiscount";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
-                while (rs.next()) {   
+                while (rs.next()) {
                     int discountId = rs.getInt("discountId");
                     int percent = rs.getInt("discountPercent");
                     Date date = rs.getDate("date");
                     boolean status = rs.getBoolean("status");
-                    
+
                     dto = new TblDiscountDTO(discountId, percent, date, status);
-                    
+
                     if (discountList == null) {
                         discountList = new ArrayList<>();
                     }
