@@ -24,6 +24,7 @@ import longpt.tblorderdetail.TblOrderDetailDTO;
 import longpt.tblorders.TblOrdersDAO;
 import longpt.tblorders.TblOrdersDTO;
 import longpt.tblpayment.TblPaymentDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -33,6 +34,7 @@ import longpt.tblpayment.TblPaymentDAO;
 public class TrackOrderServlet extends HttpServlet {
 
     private String TRACKING_PAGE = "trackorder.jsp";
+    private final static Logger logger = Logger.getLogger(TrackOrderServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -82,9 +84,9 @@ public class TrackOrderServlet extends HttpServlet {
                 request.setAttribute("MAP_ORDER_DETAIL", orderDetailList);
             }
         } catch (SQLException ex) {
-            log("TrackOrderServlet _ SQLException: " + ex.getMessage());
+            logger.error("TrackOrderServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("TrackOrderServlet _ NamingException: " + ex.getMessage());
+            logger.error("TrackOrderServlet _ NamingException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

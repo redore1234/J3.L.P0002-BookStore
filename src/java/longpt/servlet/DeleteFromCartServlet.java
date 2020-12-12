@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import longpt.cart.Cart;
 import longpt.tblproduct.TblProductDAO;
 import longpt.tblproduct.TblProductDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,7 +30,8 @@ import longpt.tblproduct.TblProductDTO;
 public class DeleteFromCartServlet extends HttpServlet {
 
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
-    private final String HOME_CONTROLLER = "HomeServlet";
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(DeleteFromCartServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,12 +71,12 @@ public class DeleteFromCartServlet extends HttpServlet {
                 }
                 session.setAttribute("CART", cart);
             } else {
-                url = HOME_CONTROLLER;
+                url = DISPATCH_CONTROLLER;
             }
         } catch (SQLException ex) {
-            log("DeleteFromCartServlet _ SQLException: " + ex.getMessage());
+            logger.error("DeleteFromCartServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("DeleteFromCartServlet _ NamingException: " + ex.getMessage());
+            logger.error("DeleteFromCartServlet _ NamingException: " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
             out.close();

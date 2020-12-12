@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import longpt.tblproduct.TblProductDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -28,8 +29,8 @@ import longpt.tblproduct.TblProductDAO;
 @MultipartConfig
 public class InsertBookServlet extends HttpServlet {
 
-    private final String HOME_CONTROLLER = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(InsertBookServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,13 +78,13 @@ public class InsertBookServlet extends HttpServlet {
 
             TblProductDAO productDAO = new TblProductDAO();
             productDAO.insertBook(title, quantity, fileInputStream, author, description, price, categoryId);
-            url = HOME_CONTROLLER;
+            url = DISPATCH_CONTROLLER;
         } catch (SQLException ex) {
-            log("InsertBookServlet _ SQLException: " + ex.getMessage());
+            logger.error("InsertBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("InsertBookServlet _ NamingException: " + ex.getMessage());
+            logger.error("InsertBookServlet _ NamingException: " + ex.getMessage());
         } catch (IOException ex) {
-            log("InsertBookServlet _ IOException:  " + ex.getMessage());
+            logger.error("InsertBookServlet _ IOException:  " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

@@ -22,7 +22,7 @@
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="HomeServlet">Home</a>
                 </li>
                 
                 
@@ -36,11 +36,11 @@
                             <a href="${urlInsert}" class="nav-link active">Insert new Book</a>
                         </li>
                         <li class="nav-item">
-                            <a href="discount.jsp" class="nav-link active">Create Discount</a>
+                            <a href="DispatchController?btnAction=View Discount" class="nav-link active">View Discount</a>
                         </li>
                         </c:when>
                         <c:otherwise>
-                            <c:redirect url="HomeServlet"/>
+                            <c:redirect url="DispatchController"/>
                         </c:otherwise>
                     </c:choose>
 
@@ -169,7 +169,7 @@
                                                  </a>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:redirect url="HomeServlet"/>
+                                                <c:redirect url="DispatchController"/>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

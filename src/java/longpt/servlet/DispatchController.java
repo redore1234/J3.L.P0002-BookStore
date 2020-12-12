@@ -37,7 +37,8 @@ public class DispatchController extends HttpServlet {
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
     private final String UPDATE_CART_CONTROLLER = "UpdateCartServlet";
     private final String CHECK_OUT_CONTROLLER = "CheckOutServlet";
-    private final String CREATE_DISCOUNT_CONTROLLER = "CreateDiscountSerlvet";
+    private final String CREATE_DISCOUNT_CONTROLLER = "CreateDiscountServlet";
+    private final String VIEW_DISCOUNT_CONTROLLER = "ViewDiscountServlet";
     private final String TRACK_ORDER_CONTROLLER = "TrackOrderServlet";
 
     /**
@@ -94,6 +95,8 @@ public class DispatchController extends HttpServlet {
                 url = TRACK_ORDER_CONTROLLER;
             } else if (button.equals("Create Discount") && session != null) {
                 url = CREATE_DISCOUNT_CONTROLLER;
+            } else if (button.equals("View Discount") && session != null) {
+                url = VIEW_DISCOUNT_CONTROLLER;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

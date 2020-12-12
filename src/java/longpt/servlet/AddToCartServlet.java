@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import longpt.cart.Cart;
 import longpt.tblproduct.TblProductDAO;
 import longpt.tblproduct.TblProductDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,8 +28,8 @@ import longpt.tblproduct.TblProductDTO;
 public class AddToCartServlet extends HttpServlet {
 
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
-    private final String HOME_CONTROLLER = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(AddToCartServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,7 +44,7 @@ public class AddToCartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String url = HOME_CONTROLLER;
+        String url = DISPATCH_CONTROLLER;
 
         try {
             //Get productId
@@ -68,9 +69,9 @@ public class AddToCartServlet extends HttpServlet {
                 url = VIEW_CART_CONTROLLER;
             }
         } catch (SQLException ex) {
-            log("AddToCartServlet _ SQLException: " + ex.getMessage());
+            logger.error("AddToCartServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("AddToCartServlet _ NamingException: " + ex.getMessage());
+            logger.error("AddToCartServlet _ NamingException: " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
             out.close();

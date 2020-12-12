@@ -6,19 +6,35 @@
 package longpt.tbldiscount;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
  * @author phamt
  */
-public class TblDiscountDTO implements Serializable{
+public class TblDiscountDTO implements Serializable {
+
+    private int discountId;
     private int discountPer;
+    private Date date;
+    private boolean status;
 
     public TblDiscountDTO() {
     }
 
-    public TblDiscountDTO(int discountPer) {
+    public TblDiscountDTO(int discountId, int discountPer, Date date, boolean status) {
+        this.discountId = discountId;
         this.discountPer = discountPer;
+        this.date = date;
+        this.status = status;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
     }
 
     public int getDiscountPer() {
@@ -28,5 +44,21 @@ public class TblDiscountDTO implements Serializable{
     public void setDiscountPer(int discountPer) {
         this.discountPer = discountPer;
     }
-    
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

@@ -23,6 +23,7 @@ import longpt.tblorderdetail.TblOrderDetailDAO;
 import longpt.tblorders.TblOrdersDAO;
 import longpt.tblproduct.TblProductDAO;
 import longpt.tblproduct.TblProductDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -32,8 +33,8 @@ import longpt.tblproduct.TblProductDTO;
 public class CheckOutServlet extends HttpServlet {
 
     private final String VIEW_CART_CONTROLLER = "ViewCartServlet";
-    private final String HOME_CONTROLLER = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(CheckOutServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -97,12 +98,12 @@ public class CheckOutServlet extends HttpServlet {
                     }
                 }
             } else {
-                url = HOME_CONTROLLER;
+                url = DISPATCH_CONTROLLER;
             }
         } catch (SQLException ex) {
-            log("CheckOutServlet _ SQLException: " + ex.getMessage());
+            logger.error("CheckOutServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("CheckOutServlet _ NamingException: " + ex.getMessage());
+            logger.error("CheckOutServlet _ NamingException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

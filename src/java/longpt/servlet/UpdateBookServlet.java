@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import longpt.tblproduct.TblProductDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,8 +28,8 @@ import longpt.tblproduct.TblProductDAO;
 @MultipartConfig
 public class UpdateBookServlet extends HttpServlet {
 
-//    private final String LOAD_CATEGORY_UPDATE_CONTROLLER = "LoadCategoryUpdateServlet";
-    private final String HOME_CONTROLLER = "HomeServlet";
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(UpdateBookServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -82,13 +83,13 @@ public class UpdateBookServlet extends HttpServlet {
 
             TblProductDAO productDAO = new TblProductDAO();
             productDAO.updateBook(productId, title, quantity, fileInputStream, author, description, price, categoryId);
-            url = HOME_CONTROLLER;
+            url = DISPATCH_CONTROLLER;
         } catch (SQLException ex) {
-            log("UpdateBookServlet _ SQLException: " + ex.getMessage());
+            logger.error("UpdateBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("UpdateBookServlet _ NamingException: " + ex.getMessage());
+            logger.error("UpdateBookServlet _ NamingException: " + ex.getMessage());
         } catch (IOException ex) {
-            log("UpdateBookServlet _ IOException:  " + ex.getMessage());
+            logger.error("UpdateBookServlet _ IOException:  " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
             out.close();

@@ -7,20 +7,28 @@ package longpt.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import longpt.tblaccount.TblAccountDTO;
+import longpt.tbldiscount.TblDiscountDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author phamt
  */
-@WebServlet(name = "CreateDiscountSerlvet", urlPatterns = {"/CreateDiscountSerlvet"})
-public class CreateDiscountSerlvet extends HttpServlet {
+@WebServlet(name = "CreateDiscountServlet", urlPatterns = {"/CreateDiscountServlet"})
+public class CreateDiscountServlet extends HttpServlet {
 
-    private final String DISCOUNT_PAGE = "discount.jsp";
+    private final String HOME_CONTROLLER = "HomeServlet";
+    private final static Logger logger = Logger.getLogger(CreateDiscountServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,10 +42,47 @@ public class CreateDiscountSerlvet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = DISCOUNT_PAGE;
+        String url = "DispatchController?btnAction=View Discount";
+        boolean isAdmin = true;
         try {
- 
+            //Check role 
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                TblAccountDTO dto = (TblAccountDTO) session.getAttribute("ACCOUNT");
+                if (dto != null) {
+                    if (dto.getRoleId().equals("admin")) {
+                        isAdmin = true;
+                        String percent = request.getParameter("cbPercentage");
+                        int disPercent = 0;
+                        if (percent != null) {
+                            disPercent = Integer.parseInt(percent);
+                        }
+
+                        String quantity = request.getParameter("cbDisQuantity");
+                        int disQuantity = 0;
+                        if (quantity != null) {
+                            disQuantity = Integer.parseInt(quantity);
+                        }
+
+                        TblDiscountDAO discountDAO = new TblDiscountDAO();
+                        discountDAO.createDiscount(disPercent, disQuantity);
+                    } else {
+                        isAdmin = false;
+                    }
+                } else if (dto == null) {
+                    isAdmin = false;
+                }
+
+                if (isAdmin == false) {
+                    url = HOME_CONTROLLER;
+                }
+            }
+        } catch (SQLException ex) {
+            logger.error("CreateDiscountSerlvet - SQLException: " + ex.getMessage());
+        } catch (NamingException ex) {
+            logger.error("CreateDiscountSerlvet - NamingException: " + ex.getMessage());
         } finally {
+            response.sendRedirect(url);
             out.close();
         }
     }

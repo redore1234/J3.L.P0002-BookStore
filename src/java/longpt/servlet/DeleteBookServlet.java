@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import longpt.tblproduct.TblProductDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,8 +24,8 @@ import longpt.tblproduct.TblProductDAO;
 @WebServlet(name = "DeleteBookServlet", urlPatterns = {"/DeleteBookServlet"})
 public class DeleteBookServlet extends HttpServlet {
 
-    private final String HOME_PAGE = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(DeleteBookServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,7 +40,7 @@ public class DeleteBookServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String url = HOME_PAGE;
+        String url = DISPATCH_CONTROLLER;
 
         try {
             String product = request.getParameter("productId");
@@ -52,11 +53,11 @@ public class DeleteBookServlet extends HttpServlet {
             //Call DAO
             TblProductDAO productDAO = new TblProductDAO();
             productDAO.deleteBook(productId);
-            url = HOME_PAGE;
+            url = DISPATCH_CONTROLLER;
         } catch (SQLException ex) {
-            log("DeleteBookServlet _ SQLException: " + ex.getMessage());
+            logger.error("DeleteBookServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("DeleteBookServlet _ NamingException: " + ex.getMessage());
+            logger.error("DeleteBookServlet _ NamingException: " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
             out.close();

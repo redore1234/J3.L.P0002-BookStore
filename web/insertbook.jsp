@@ -19,7 +19,7 @@
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
         <c:if test="${empty account}">
-            <c:redirect url="HomeServlet"/>
+            <c:redirect url="DispatchController"/>
         </c:if>
         
         <nav class="navbar navbar-dark navbar-expand-sm bg-primary">

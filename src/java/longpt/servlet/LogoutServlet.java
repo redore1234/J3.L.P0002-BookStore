@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/LogoutServlet"})
 public class LogoutServlet extends HttpServlet {
 
-    private final String HOME_CONTROLLER = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,7 +36,7 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = HOME_CONTROLLER;
+        String url = DISPATCH_CONTROLLER;
         try {
             HttpSession session = request.getSession(false);
             if (session != null) {

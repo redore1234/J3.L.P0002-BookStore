@@ -20,7 +20,7 @@
             <c:set var="account" value="${sessionScope.ACCOUNT}"/>
             <c:set var="role" value="${sessionScope.ACCOUNT_ROLE}"/>
             <c:if test="${empty account}">
-                <c:redirect url="HomeServlet"/>
+                <c:redirect url="DispatchController"/>
             </c:if>
 
             <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
@@ -38,7 +38,7 @@
                                 <a href="${urlViewCart}" class="nav-link active">View Cart</a>
                             </c:when>
                             <c:otherwise>
-                                <c:redirect url="HomeServlet"/>
+                                <c:redirect url="DispatchController"/>
                             </c:otherwise>
                         </c:choose>
                     </li>
@@ -48,7 +48,7 @@
                                 <a href="trackorder.jsp" class="nav-link active">Track Order</a>
                             </c:when>
                             <c:otherwise>
-                                <c:redirect url="HomeServlet"/>
+                                <c:redirect url="DispatchController"/>
                             </c:otherwise>
                         </c:choose>
                     </li>
@@ -122,7 +122,7 @@
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <c:redirect url="HomeServlet"/>
+                                                    <c:redirect url="DispatchController"/>
                                                 </c:otherwise>
                                             </c:choose>
                                         </th>

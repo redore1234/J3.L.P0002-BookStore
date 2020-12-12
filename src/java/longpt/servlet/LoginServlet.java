@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import longpt.tblaccount.TblAccountDAO;
 import longpt.tblaccount.TblAccountDTO;
 import longpt.tblrole.TblRoleDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,9 +30,9 @@ import longpt.tblrole.TblRoleDAO;
 public class LoginServlet extends HttpServlet {
 
     private final String INVALID_PAGE = "invalid.html";
-    private final String HOME_CONTROLLER = "HomeServlet";
+    private final String DISPATCH_CONTROLLER = "DispatchController";
     private final String LOGIN_PAGE = "login.html";
-
+    private final static Logger logger = Logger.getLogger(LoginServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -66,15 +67,15 @@ public class LoginServlet extends HttpServlet {
                     String role = roleDAO.getRole(accountDTO.getRoleId());
                     session.setAttribute("ACCOUNT_ROLE", role);
 
-                    url = HOME_CONTROLLER;
+                    url = DISPATCH_CONTROLLER;
                 } else {  //2 means Deactive in DB
                     url = INVALID_PAGE;
                 }
             }
         } catch (SQLException ex) {
-            log("LoginServlet _ SQLException: " + ex.getMessage());
+            logger.error("LoginServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("LoginServlet _ NamingException: " + ex.getMessage());
+            logger.error("LoginServlet _ NamingException: " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
             out.close();

@@ -20,6 +20,7 @@ import longpt.tblcategory.TblCategoryDAO;
 import longpt.tblcategory.TblCategoryDTO;
 import longpt.tblproduct.TblProductDAO;
 import longpt.tblproduct.TblProductDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,7 +30,8 @@ import longpt.tblproduct.TblProductDTO;
 public class SearchBookCategoryServlet extends HttpServlet {
 
     private final String HOME_PAGE = "home.jsp";
-    private final String HOME_CONTROLLER = "HomeServlet";
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(SearchBookCategoryServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,14 +69,14 @@ public class SearchBookCategoryServlet extends HttpServlet {
                 request.setAttribute("LIST_CATEGORIES", listCategories);
                 url = HOME_PAGE;
             } else {
-                url = HOME_CONTROLLER;
+                url = DISPATCH_CONTROLLER;
             }
         } catch (SQLException ex) {
-            log("SearchBookCategoryServlet _ SQLException: " + ex.getMessage());
+            logger.error("SearchBookCategoryServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("SearchBookCategoryServlet _ NamingException: " + ex.getMessage());
+            logger.error("SearchBookCategoryServlet _ NamingException: " + ex.getMessage());
         } catch (IOException ex) {
-            log("SearchBookCategoryServlet _ IOException: " + ex.getMessage());
+            logger.error("SearchBookCategoryServlet _ IOException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

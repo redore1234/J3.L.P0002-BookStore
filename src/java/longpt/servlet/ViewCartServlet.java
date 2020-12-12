@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import longpt.cart.Cart;
 import longpt.tblcategory.TblCategoryDAO;
 import longpt.tblcategory.TblCategoryDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,6 +30,7 @@ import longpt.tblcategory.TblCategoryDTO;
 public class ViewCartServlet extends HttpServlet {
 
     private final String CART_PAGE = "cart.jsp";
+    private final static Logger logger = Logger.getLogger(ViewCartServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,9 +62,9 @@ public class ViewCartServlet extends HttpServlet {
             List<TblCategoryDTO> listCategories = categoryDAO.getListCategory();
             request.setAttribute("LIST_CATEGORIES", listCategories);
         } catch (SQLException ex) {
-            log("ViewCartServlet _ SQLException: " + ex.getMessage());
+            logger.error("ViewCartServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("ViewCartServlet _ NamingException: " + ex.getMessage());
+            logger.error("ViewCartServlet _ NamingException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

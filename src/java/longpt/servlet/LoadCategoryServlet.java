@@ -20,6 +20,7 @@ import longpt.tblcategory.TblCategoryDAO;
 import longpt.tblcategory.TblCategoryDTO;
 import longpt.tblproduct.TblProductDAO;
 import longpt.tblproduct.TblProductDTO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -30,8 +31,8 @@ public class LoadCategoryServlet extends HttpServlet {
 
     private final String INSERT_PAGE = "insertbook.jsp";
     private final String UPDATE_PAGE = "updatebook.jsp";
-    private final String HOME_CONTROLLER = "HomeServlet";
-
+    private final String DISPATCH_CONTROLLER = "DispatchController";
+    private final static Logger logger = Logger.getLogger(LoadCategoryServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -74,7 +75,7 @@ public class LoadCategoryServlet extends HttpServlet {
                         url = UPDATE_PAGE;
                     }
                 } else {
-                    url = HOME_CONTROLLER;
+                    url = DISPATCH_CONTROLLER;
                 }
             }
 

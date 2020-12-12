@@ -12,30 +12,27 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import longpt.tblaccount.TblAccountDTO;
-import longpt.tblcategory.TblCategoryDAO;
-import longpt.tblcategory.TblCategoryDTO;
-import longpt.tblproduct.TblProductDAO;
-import longpt.tblproduct.TblProductDTO;
+import longpt.tbldiscount.TblDiscountDAO;
+import longpt.tbldiscount.TblDiscountDTO;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author phamt
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/HomeServlet"})
-@MultipartConfig
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "ViewDiscountServlet", urlPatterns = {"/ViewDiscountServlet"})
+public class ViewDiscountServlet extends HttpServlet {
 
-    private final String HOME_PAGE = "home.jsp";
-    private final String MANAGE_PAGE = "manage.jsp";
-    private final static Logger logger = Logger.getLogger(HomeServlet.class);
+    private final String DISPATCHER_CONTROLLER = "DispatchController";
+    private final String DISCOUNT_PAGE = "discount.jsp";
+    private final static Logger logger = Logger.getLogger(ViewDiscountServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,37 +47,37 @@ public class HomeServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String url = HOME_PAGE;
+        String url = DISCOUNT_PAGE;
+        boolean isAdmin = true;
         try {
-            // Check Role
+                //Check role 
             HttpSession session = request.getSession(false);
             if (session != null) {
                 TblAccountDTO dto = (TblAccountDTO) session.getAttribute("ACCOUNT");
                 if (dto != null) {
                     if (dto.getRoleId().equals("admin")) {
-                        url = MANAGE_PAGE;
+                        isAdmin = true;
+
+                        TblDiscountDAO discountDAO = new TblDiscountDAO();
+                        discountDAO.loadAllDiscounts();
+
+                        List<TblDiscountDTO> discountList = discountDAO.getDiscountList();
+                        request.setAttribute("DISCOUNT_LIST", discountList);
+                    } else {
+                        isAdmin = false;
                     }
+                } else if (dto == null) {
+                    isAdmin = false;
+                }
+
+                if (isAdmin == false) {
+                    url = DISPATCHER_CONTROLLER;
                 }
             }
-
-            //get all books
-            TblProductDAO productDAO = new TblProductDAO();
-            productDAO.loadAllBooks();
-
-            List<TblProductDTO> listBooks = productDAO.getListBooks();
-            request.setAttribute("LIST_BOOKS", listBooks);
-
-            //get all categories
-            TblCategoryDAO categoryDAO = new TblCategoryDAO();
-            categoryDAO.loadAllCategories();
-
-            List<TblCategoryDTO> listCategories = categoryDAO.getListCategory();
-            request.setAttribute("LIST_CATEGORIES", listCategories);
-
         } catch (SQLException ex) {
-            logger.error("HomeServlet _ SQLException: " + ex.getMessage());
+            logger.error("ViewDiscountServlet - SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            logger.error("HomeServlet _ NamingException: " + ex.getMessage());
+            logger.error("ViewDiscountServlet - NamingException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
