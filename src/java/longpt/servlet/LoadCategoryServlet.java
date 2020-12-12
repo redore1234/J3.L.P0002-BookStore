@@ -87,9 +87,9 @@ public class LoadCategoryServlet extends HttpServlet {
             List<TblCategoryDTO> listCategories = categoryDAO.getListCategory();
             request.setAttribute("LIST_CATEGORIES", listCategories);
         } catch (SQLException ex) {
-            log("LoadCategoryServlet _ SQLException: " + ex.getMessage());
+            logger.error("LoadCategoryServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("LoadCategoryServlet _ NamingException: " + ex.getMessage());
+            logger.error("LoadCategoryServlet _ NamingException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
